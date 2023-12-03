@@ -18,4 +18,12 @@ defmodule HangmanImplTest do
     assert game.game_state == :initializing
     assert game.letters == ["w", "o", "m", "b", "a", "t"]
   end
+
+  test "new game returns word of letters in lower-case ASCII" do
+    game = Game.new_game(String.upcase("wombat"))
+
+    assert game.turns_left == 7
+    assert game.game_state == :initializing
+    assert game.letters == ["w", "o", "m", "b", "a", "t"]
+  end
 end

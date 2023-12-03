@@ -18,7 +18,7 @@ defmodule Hangman.Impl.Game do
 
   def new_game(word) do
     %__MODULE__{
-      letters: word |> String.codepoints()
+      letters: word |> String.downcase() |> String.codepoints()
     }
   end
 end
