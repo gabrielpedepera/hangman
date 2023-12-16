@@ -51,7 +51,7 @@ defmodule Hangman.Impl.Game do
 
   defp tally(game) do
     %{
-      turns_lef: game.turns_left,
+      turns_left: game.turns_left,
       game_state: game.game_state,
       letters: [],
       used: game.used |> MapSet.to_list() |> Enum.sort()
