@@ -14,21 +14,39 @@ defmodule TextClient.Impl.Player do
   @spec interact(state) :: :ok
 
   def interact({_game, _tally = %{game_state: :won}}) do
-    IO.puts("Congratulations. You won!")
+    IO.puts("Congratulations. #{IO.ANSI.format([:green, "You won!"])}")
   end
 
   def interact({_game, tally = %{game_state: :lost}}) do
-    IO.puts("Sorry, you lost... the word was #{tally.letters |> Enum.join()}.")
+    IO.puts(
+      "Sorry, you lost... the word was #{IO.ANSI.format([:red, tally.letters |> Enum.join()])}."
+    )
   end
 
   def interact({game, tally}) do
     IO.puts(feedback_for(tally))
-    # feedback
-    # display current word
-    # get next guess
-    # make move
+    IO.puts(current_word(tally))
 
-    # interact()
+    Hangman.make_move(game, get_guess())
+    |> interact()
+  end
+
+  defp get_guess() do
+    IO.gets("Next letter: ")
+    |> String.trim()
+    |> String.downcase()
+  end
+
+  defp current_word(tally) do
+    [
+      "Word so far: ",
+      tally.letters |> Enum.join(" "),
+      IO.ANSI.format([:green, "   (turns left: "]),
+      IO.ANSI.format([:blue, tally.turns_left |> to_string]),
+      IO.ANSI.format([:green, "   used so far: "]),
+      IO.ANSI.format([:yellow, tally.used |> Enum.join(",")]),
+      IO.ANSI.format([:green, ")"])
+    ]
   end
 
   defp feedback_for(tally = %{game_state: :initializing}) do

@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "./hangman"
+		},
+		{
+			"path": "./text_client"
 		}
 	]
 }
